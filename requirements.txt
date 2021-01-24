@@ -1,0 +1,10 @@
+django
+gunicorn
+django-heroku
+requests
+flask
+flask_pymongo
+splinter
+sqlalchemy
+bs4
+scipy
