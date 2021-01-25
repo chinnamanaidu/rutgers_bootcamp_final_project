@@ -36,9 +36,13 @@ app = Flask(__name__)
 # Use PyMongo to establish Mongo connection
 #mongo = PyMongo(app, uri="mongodb://localhost:27017/web_scrapping_challenge_db")
 
-rds_connection_string = "postgres:admin@localhost:5432/final_project_stocks"
+#rds_connection_string = "postgres:admin@localhost:5432/final_project_stocks"
+#rds_connection_string = "postgres:admin@localhost:5432/final_project_stocks"
 #<insert password>@localhost:5432/customer_db"
-engine = create_engine(f'postgresql://{rds_connection_string}')
+#engine = create_engine(f'postgresql://{rds_connection_string}')
+
+conn_url = 'postgres://wnhlndefflhtpu:d5f994af42137d89ab637af376441407d47cfbe163426ec823e3bf602599ee7c@ec2-54-163-215-125.compute-1.amazonaws.com:5432/dvfh8o0788t9q'
+engine = create_engine(conn_url)
 
 #postgres://wnhlndefflhtpu:d5f994af42137d89ab637af376441407d47cfbe163426ec823e3bf602599ee7c@ec2-54-163-215-125.compute-1.amazonaws.com:5432/dvfh8o0788t9q
 
@@ -49,7 +53,9 @@ def home():
 
     # Find one record of data from the mongo database
     # @TODO: YOUR CODE HERE!
-    stocks = engine.execute("select * from stocks ", con=engine)
+    session = Session(engine)
+    stocks = session.execute("select * from stocks ")
+    #country = session.execute(" select country, country_code from country ")
     #return render_template("index.html", listings=listings)
     # Return template and data
   
@@ -60,6 +66,7 @@ def home():
 
     responsedata = { 'respdata': resdata
     }
+    session.close()
     return render_template("index.html", stocks=stocks, responsedata=responsedata, 
             init_page="initpage")
 
@@ -70,7 +77,8 @@ def kclass():
 
     # Find one record of data from the mongo database
     # @TODO: YOUR CODE HERE!
-    stocks = engine.execute("select * from stocks ", con=engine)
+    session = Session(engine)
+    stocks = session.execute("select * from stocks ")
     #return render_template("index.html", listings=listings)
     # Return template and data
   
@@ -81,6 +89,7 @@ def kclass():
 
     responsedata = { 'respdata': resdata
     }
+    session.close()
     return render_template("kclassification.html", stocks=stocks, responsedata=responsedata, 
             init_page="initpage")
 
@@ -96,7 +105,8 @@ def get_stocks(st):
     # Find one record of data from the mongo database
     # @TODO: YOUR CODE HERE!
     
-    stocks = engine.execute("select * from stocks ", con=engine)
+    session = Session(engine)
+    stocks = session.execute("select * from stocks ")
     #return render_template("index.html", listings=listings)
     # Return template and data
 
@@ -108,6 +118,7 @@ def get_stocks(st):
 
     responsedata = { 'respdata': resdata
     }
+    session.close()
 
     print('Hello this is test')
     df = pd.read_csv("static/data/"+st+".csv")
@@ -180,12 +191,12 @@ def get_stocks(st):
     print(f"Lasso MSE: {lasso_MSE}, R2: {lasso_r2}")
 
     #Ridge model
-    ridge = Ridge(alpha=.01).fit(X_train_scaled, y_train_scaled)
+    ridgeVal = Ridge(alpha=.01).fit(X_train_scaled, y_train_scaled)
 
-    ridge_predictions = ridge.predict(X_test_scaled)
+    ridge_predictions = ridgeVal.predict(X_test_scaled)
 
     ridge_MSE = mean_squared_error(y_test_scaled, ridge_predictions)
-    ridge_r2 = ridge.score(X_test_scaled, y_test_scaled)
+    ridge_r2 = ridgeVal.score(X_test_scaled, y_test_scaled)
     print(f"ridge MSE: {ridge_MSE}, R2: {ridge_r2}")
 
     #elasticNet
@@ -235,7 +246,8 @@ def kclassification(st):
 
     # Find one record of data from the mongo database
     # @TODO: YOUR CODE HERE!
-    stocks = engine.execute("select * from stocks ", con=engine)
+    session = Session(engine)
+    stocks = session.execute("select * from stocks ")
     #return render_template("index.html", listings=listings)
     # Return template and data
   
@@ -246,6 +258,7 @@ def kclassification(st):
 
     responsedata = { 'respdata': resdata
     }
+    session.close()
 
     print('Hello this is test')
     df = pd.read_csv("static/data/"+st+".csv")
