@@ -39,13 +39,13 @@ app = Flask(__name__)
 # Use PyMongo to establish Mongo connection
 #mongo = PyMongo(app, uri="mongodb://localhost:27017/web_scrapping_challenge_db")
 
-#rds_connection_string = "postgres:admin@localhost:5432/final_project_stocks"
+rds_connection_string = "postgres:admin@localhost:5432/final_project_stocks"
 #rds_connection_string = "postgres:admin@localhost:5432/final_project_stocks"
 #<insert password>@localhost:5432/customer_db"
-#engine = create_engine(f'postgresql://{rds_connection_string}')
+engine = create_engine(f'postgresql://{rds_connection_string}')
 
-conn_url = 'postgres://slcslzlanikhqj:b106eda2173b6ce2c35f34626fb87eafcfd0f52e9ce55f36d776827fef375f71@ec2-52-3-4-232.compute-1.amazonaws.com:5432/ddv6vu8jpdbjns'
-engine = create_engine(conn_url)
+#conn_url = 'postgres://slcslzlanikhqj:b106eda2173b6ce2c35f34626fb87eafcfd0f52e9ce55f36d776827fef375f71@ec2-52-3-4-232.compute-1.amazonaws.com:5432/ddv6vu8jpdbjns'
+#engine = create_engine(conn_url)
 
 
 #conn_url = 'postgres://wnhlndefflhtpu:d5f994af42137d89ab637af376441407d47cfbe163426ec823e3bf602599ee7c@ec2-54-163-215-125.compute-1.amazonaws.com:5432/dvfh8o0788t9q'
